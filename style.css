@@ -68,4 +68,49 @@ button.secondary {
     padding: 20px;
     border-radius: 10px;
     margin: 20px 0;
+
+}
+
+/* Buy Me a Coffee - Dezenter Floating Button */
+.bmc-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(30, 41, 59, 0.8); /* Passend zu deinem Container */
+    border: 1px solid #f472b6; /* Dein Pink-Ton als Akzent */
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px); /* Glaseffekt */
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.bmc-button:hover {
+    transform: translateY(-3px);
+    background: #f472b6; /* Wechselt zu Pink beim Hover */
+    color: #1e293b;
+    box-shadow: 0 6px 20px rgba(244, 114, 182, 0.4);
+}
+
+.bmc-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+/* Mobil etwas kleiner, damit er nicht im Weg ist */
+@media (max-width: 480px) {
+    .bmc-button {
+        bottom: 15px;
+        right: 15px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
 }
