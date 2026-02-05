@@ -24,30 +24,60 @@ async function generateStory() {
 
     // --- ALTERS-LOGIK FÜR DEN ERZÄHLSTIL ---
     const ageNumber = parseInt(age);
-    let stylisticInstruction = "";
-    
-    if (ageNumber < 3) {
-        stylisticInstruction = "Nutze einfache Sätze und sanfte Lautmalerei (z.B. 'Plumps', 'Wusch'), um die Aufmerksamkeit zu halten. Benenne Gefühle direkt nach einer kurzen Beschreibung.";
-    } else {
-        stylisticInstruction = "Schreibe komplexere, bildhafte Sätze. Nutze Lautmalerei nur als sehr seltenes, dezentes Stilmittel. Beschreibe Gefühle hauptsächlich durch Handlungen (Show, don't tell).";
-    }
+// --- PROMPT ZUSAMMENBAUEN ---
+const ageNumber = parseInt(age);
 
-    // --- PROMPT ZUSAMMENBAUEN ---
-    let prompt = `Du bist ein einfühlsamer Kinderbuchautor wie Ingo Siegner oder Astrid Lindgren. Schreibe eine Geschichte für ${name} (${age} J.). 
-Held: ${hero}. Stimmung: ${mood}. Schauplatz: ${setting || 'Ein schöner Ort'}.
-Stil-Vorgabe: ${stylisticInstruction}
+// Spezifische Autoren-Gewichtung nach Alter
+let authorStyle = "";
+if (ageNumber < 3) {
+    authorStyle = "Nutze die rhythmischen Wiederholungen von Eric Carle und die Sanftheit von Jule Pfeiffer-Phof.";
+} else {
+    authorStyle = "Kombiniere die Herzlichkeit von Astrid Lindgren mit der Klarheit und dem Witz von Ingo Siegner.";
+}
 
- STRENGSTE REGELN FÜR DEN SCHREIBSTIL:
-1. SHOW AND TELL: Beschreibe Gefühle erst durch Handlungen (Zittern, Lachen, Kopf hängen lassen) und benenne das Gefühl dann sanft in einem zweiten Satz, damit das Kind lernt, es zuzuordnen.
-2. DIALOGE: Lass die Figuren lebendig sprechen, aber vermeide, dass sie wie Lehrer oder Therapeuten klingen.
-3. KEINE META-DATEN: Gib NUR die Geschichte und den Titel aus. Keine Einleitung wie "Hier ist deine Geschichte" und keine Menütexte.
-4. STRUKTUR: Ein kurzer, fesselnder Einstieg, ein Moment des Scheiterns und eine herzerwärmende, kreative Lösung.`;
+let prompt = `
+### DEINE ROLLE
+Du bist ein preisgekrönter Kinderbuchautor. Dein Schreibstil ist warmherzig, voller Staunen und rhythmisch. 
+STIMME: ${authorStyle}
 
-    if (setting) prompt += ` Schauplatz: ${setting}.`;
-    if (theme) prompt += ` Pädagogischer Kern (versteckt in der Handlung): ${theme}.`;
-    if (extraWish) prompt += ` Wichtige Details: ${extraWish}.`;
+### ZIELGRUPPE & SETTING
+- Kind: ${name} (${age} Jahre)
+- Held: ${hero}
+- Stimmung: ${mood}
+- Schauplatz: ${setting || 'Ein Ort voller Wunder'}
+- Pädagogischer Kern: ${theme || 'Keine spezifische Vorgabe'}
 
-    prompt += ` Schreibe die Geschichte in einer bildhaften, kindgerechten Sprache mit etwa 4-5 Absätzen. Gesamtlänge ca. 400 Wörter.`;
+### DIE GOLDENEN REGELN (STRENG EINHALTEN)
+
+1. DER "GEFÜHLS-ANKER" (Show, don't tell):
+   - Beschreibe Emotionen NIEMALS abstrakt (Vermeide: "Er war traurig", "Dieses Gefühl der Entmutigung").
+   - Beschreibe stattdessen den Körper: "Die Schultern hingen tief", "Ein Zittern in den Pfoten", "Ein Strahlen bis zu den Ohren".
+   - Nach der körperlichen Beschreibung folgt EIN sanfter Satz zur Einordnung: "${name}, das nennt man Stolz, oder?"
+
+2. DIE INTERAKTIVE EINBINDUNG:
+   - Behandle ${name} als Begleiter. Sprich ${name} 2-3 Mal direkt an (z.B. "Kannst du das auch sehen, ${name}?" oder "${name} hielt den Atem an").
+
+3. DER WENDEPUNKT (Kein Zufall!):
+   - Der Held darf sein Problem NICHT durch Magie oder Zufall lösen.
+   - Er muss einen Fehlversuch haben. 
+   - Die Lösung muss aus einer Idee des Helden oder der Hilfe von ${name} entstehen.
+
+4. ALTERSGERECHTE ARCHITEKTUR:
+   ${ageNumber < 3 ? 
+     "- Kurze Sätze (max. 8 Wörter). Viele Lautmalereien (Hui, Plumps). Wiederholungen von Wörtern." : 
+     "- Bildhafte Sprache und Vergleiche aus der Kinderwelt (z.B. 'so gelb wie eine reife Banane'). Keine Schachtelsätze."
+   }
+
+5. ANTI-BELEHRUNGS-FILTER:
+   - Schreibe NIEMALS eine Zusammenfassung oder eine Moral am Ende.
+   - Die Geschichte endet mit einem herzerwärmenden Bild.
+
+### FORMAT
+- Nur Titel (fett) und Geschichte. Ca. 4-5 Absätze. Keine Metadaten.
+
+### BESONDERE WÜNSCHE:
+${extraWish || 'Keine'}
+`;
 
     // --- DER NEUE API AUFRUF (über Netlify) ---
     try {
@@ -86,4 +116,5 @@ function downloadPDF() {
     doc.text(splitText, 10, 20);
     doc.save("geschichte.pdf");
 }
+
 
