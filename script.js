@@ -61,8 +61,10 @@ Stil-Vorgabe: ${stylisticInstruction}
 
         const data = await response.json();
 
-        if (data.error) {
-            throw new Error(data.error);
+       if (data.error) {
+            // Das hier sorgt dafür, dass wir den echten Fehlertext sehen
+            const errorText = data.error.message || JSON.stringify(data.error);
+            throw new Error(errorText);
         }
 
         if (data.candidates && data.candidates[0].content) {
@@ -84,3 +86,4 @@ function downloadPDF() {
     doc.text(splitText, 10, 20);
     doc.save("geschichte.pdf");
 }
+
