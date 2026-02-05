@@ -24,9 +24,6 @@ async function generateStory() {
 
     // --- ALTERS-LOGIK FÜR DEN ERZÄHLSTIL ---
     const ageNumber = parseInt(age);
-// --- PROMPT ZUSAMMENBAUEN ---
-const ageNumber = parseInt(age);
-
 // Spezifische Autoren-Gewichtung nach Alter
 let authorStyle = "";
 if (ageNumber < 3) {
@@ -116,5 +113,6 @@ function downloadPDF() {
     doc.text(splitText, 10, 20);
     doc.save("geschichte.pdf");
 }
+
 
 
