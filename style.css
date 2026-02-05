@@ -1,6 +1,7 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #0f172a; /* Mitternachtsblau */
+    font-family: 'Lora', serif; /* Schöne Buchschrift */
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    background-attachment: fixed;
     color: #e2e8f0;
     display: flex;
     justify-content: center;
@@ -17,7 +18,13 @@ body {
     width: 100%;
 }
 
-h1 { color: #f472b6; text-align: center; margin-bottom: 5px; }
+h1 { 
+    font-family: 'Cinzel', serif; /* Magische Überschrift, juppei! */
+    color: #f472b6; 
+    text-align: center; 
+    margin-bottom: 5px; 
+    text-shadow: 0 0 15px rgba(244, 114, 182, 0.4);
+}
 p { text-align: center; color: #94a3b8; margin-bottom: 20px; }
 
 .section-title {
@@ -114,3 +121,27 @@ button.secondary {
         font-size: 12px;
     }
 }
+
+/* Leuchteffekt für Eingabefelder */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #f472b6;
+    box-shadow: 0 0 10px rgba(244, 114, 182, 0.3);
+    background: #3d4b5f;
+    transition: all 0.3s ease;
+}
+
+/* Schönerer Rahmen für die fertige Geschichte */
+#storyContent {
+    line-height: 1.8;
+    font-size: 1.15em;
+    white-space: pre-wrap;
+    background: rgba(15, 23, 42, 0.7);
+    padding: 30px;
+    border-radius: 15px;
+    margin: 25px 0;
+    border: 1px solid rgba(244, 114, 182, 0.2);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    font-style: italic;
+}
+
