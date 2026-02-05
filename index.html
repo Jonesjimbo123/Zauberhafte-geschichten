@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zauberhafte Geschichten</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Geschichten</h1>
+        <p>Erstelle eine einzigartige Geschichte für dein Kind.</p>
+        
+        <form id="storyForm">
+            <input type="text" id="childName" placeholder="Name des Kindes *" required>
+            <input type="number" id="childAge" placeholder="Alter *" required>
+            <input type="text" id="hero" placeholder="Wer ist der Held? (z.B. ein kleiner Bär) *" required>
+            
+            <select id="mood">
+                <option value="lustig">Lustig & Fröhlich</option>
+                <option value="spannend">Spannend & Abenteuerlich</option>
+                <option value="beruhigend">Beruhigend (Gute Nacht)</option>
+            </select>
+
+            <div class="extra-options">
+                <p class="section-title">Optionale Details für mehr Magie:</p>
+                <input type="text" id="setting" placeholder="Wo spielt die Geschichte? (z.B. im Weltraum)">
+                
+                <select id="theme">
+                    <option value="">-- Pädagogisches Thema (optional) --</option>
+                    <option value="Hilfsbereitschaft">Hilfsbereitschaft & Zusammenarbeit</option>
+                    <option value="Selbstvertrauen">Selbstvertrauen & Mut</option>
+                    <option value="Gefühle">Umgang mit Gefühlen (Wut/Trauer)</option>
+                    <option value="Nachhaltigkeit">Natur & Umweltschutz</option>
+                </select>
+                
+                <textarea id="extraWish" placeholder="Besondere Wünsche oder Details (z.B. ein Wackelzahn, ein Haustier...)" rows="3"></textarea>
+            </div>
+
+            <button type="button" onclick="generateStory()">Geschichte zaubern! ✨</button>
+        </form>
+
+        <div id="storyOutput" class="hidden">
+            <hr>
+            <h2>Deine Geschichte:</h2>
+            <p id="storyContent"></p>
+            <div class="button-group">
+                <button class="secondary" onclick="downloadPDF()">Als PDF herunterladen</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
