@@ -1,3 +1,6 @@
+// HINWEIS: Der API_KEY wird hier nicht mehr gebraucht, 
+// da wir jetzt über Netlify gehen.
+
 async function generateStory() {
     // 1. Werte auslesen
     const name = document.getElementById('childName').value;
@@ -30,7 +33,6 @@ async function generateStory() {
     }
 
     // --- PROMPT ZUSAMMENBAUEN ---
-    // Wichtig: Hier muss 'let' stehen, damit wir später Text hinzufügen können
     let prompt = `Du bist ein einfühlsamer Kinderbuchautor wie Ingo Siegner oder Astrid Lindgren. Schreibe eine Geschichte für ${name} (${age} J.). 
 Held: ${hero}. Stimmung: ${mood}. Schauplatz: ${setting || 'Ein schöner Ort'}.
 Stil-Vorgabe: ${stylisticInstruction}
@@ -47,24 +49,22 @@ Stil-Vorgabe: ${stylisticInstruction}
 
     prompt += ` Schreibe die Geschichte in einer bildhaften, kindgerechten Sprache mit etwa 4-5 Absätzen. Gesamtlänge ca. 400 Wörter.`;
 
-   // --- DER  API AUFRUF (über Netlify) ---
+    // --- DER NEUE API AUFRUF (über Netlify) ---
     try {
-        // Wir rufen jetzt unsere eigene Funktion auf, nicht mehr Google direkt!
         const response = await fetch('/.netlify/functions/story', { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                prompt: prompt // Wir schicken nur den Text an den Mittelsmann
+                prompt: prompt 
             })
         });
 
         const data = await response.json();
 
         if (data.error) {
-            throw new Error(data.error); // Falls der Mittelsmann einen Fehler meldet
+            throw new Error(data.error);
         }
-        
-        // Ab hier bleibt alles gleich wie vorher...
+
         if (data.candidates && data.candidates[0].content) {
             outputDiv.innerText = data.candidates[0].content.parts[0].text;
         }
@@ -73,10 +73,9 @@ Stil-Vorgabe: ${stylisticInstruction}
         console.error("Fehler:", error);
         outputDiv.innerText = "Ein Fehler ist aufgetreten: " + error.message;
     }
-    }
 } // Hier endet generateStory
 
-// PDF-Funktion (außerhalb der async function)
+// PDF-Funktion
 function downloadPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
