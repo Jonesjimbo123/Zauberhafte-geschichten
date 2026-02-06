@@ -19,91 +19,41 @@ async function generateStory() {
     outputDiv.innerText = "Die Zauberfeder schreibt... ✨";
     outputSection.classList.remove('hidden');
 
-  // --- NEUE ALTERSMATRIX ---
-const ageNumber = parseInt(age);
+    // --- ALTERS-LOGIK ---
+    const ageNumber = parseInt(age);
 
-let languageRules = "";
+    // Spezifische Autoren-Gewichtung nach Alter
+    let authorStyle = "";
+    if (ageNumber < 3) {
+        authorStyle = "Nutze die rhythmischen Wiederholungen von Eric Carle und die Sanftheit von Jule Pfeiffer-Phof.";
+    } else {
+        authorStyle = "Kombiniere die Herzlichkeit von Astrid Lindgren mit der Klarheit und dem Witz von Ingo Siegner.";
+    }
 
-if (ageNumber <= 3) {
-    languageRules = `
-SPRACHE:
-- Sehr kurze Sätze (maximal 8 Wörter).
-- Sehr einfache, bekannte Wörter.
-- Viele Geräusche wie "brumm", "hui", "klack".
-- Wiederholungen sind erlaubt.
-- Keine Metaphern.
-- Keine abstrakten Begriffe.
-- Keine inneren Monologe.
+    let prompt = `
+### DEINE ROLLE
+Du bist ein preisgekrönter Kinderbuchautor. Dein Schreibstil ist warmherzig, voller Staunen und rhythmisch. 
+STIMME: ${authorStyle}
 
-GEFÜHLE:
-- Nur über sichtbare Handlungen zeigen.
-- Nicht erklären.
+### ZIELGRUPPE & SETTING
+- Kind: ${name} (${age} Jahre)
+- Held: ${hero}
+- Stimmung: ${mood}
+- Schauplatz: ${setting || 'Ein Ort voller Wunder'}
+- Pädagogischer Kern: ${theme || 'Keine spezifische Vorgabe'}
 
-STRUKTUR:
-- Sehr einfache Handlung.
-- Keine dramatische Zuspitzung.
-`;
+### DIE GOLDENEN REGELN
+1. DER "GEFÜHLS-ANKER": Beschreibe Emotionen über den Körper.
+2. DIE INTERAKTIVE EINBINDUNG: Sprich ${name} direkt an.
+3. DER WENDEPUNKT: Der Held löst das Problem selbst.
+4. ALTERSGERECHTE ARCHITEKTUR: ${ageNumber < 3 ? "Kurze Sätze, Lautmalerei." : "Bildhafte Sprache, Vergleiche."}
+5. ANTI-BELEHRUNGS-FILTER: Keine Moral am Ende.
 
-} else if (ageNumber <= 5) {
-    languageRules = `
-SPRACHE:
-- Kurze bis mittlere Sätze.
-- Einfache Vergleiche erlaubt.
-- Keine komplizierten oder abstrakten Wörter.
+### FORMAT
+- Nur Titel (fett) und Geschichte. Ca. 4-5 Absätze.
 
-GEFÜHLE:
-- Einfache Gedanken erlaubt.
-- Keine tiefen Reflexionen.
-
-STRUKTUR:
-- Kleine Herausforderung.
-- Die Hauptfigur löst sie selbst.
-`;
-
-} else {
-    languageRules = `
-SPRACHE:
-- Klare, lebendige Sprache.
-- Bildhafte Vergleiche erlaubt.
-- Keine übertrieben poetische Sprache.
-
-GEFÜHLE:
-- Innere Gedanken erlaubt.
-- Klarer emotionaler Moment.
-
-STRUKTUR:
-- Klarer Spannungsbogen.
-`;
-}
-
-let prompt = `
-Schreibe eine Kindergeschichte.
-
-HAUPTFIGUR:
-${hero}
-
-ORT:
-${setting || "Ein besonderer Ort"}
-
-STIMMUNG:
-${mood || "freundlich"}
-
-${languageRules}
-
-WICHTIG:
-- Keine direkte Ansprache des Kindes.
-- Keine Moral am Ende.
-- Keine künstlich poetische Sprache.
-- Kein Pathos.
-- Vermeide Wörter wie: Rausch, Schicksal, Bestimmung, zögerlich, Lampenfieber.
-
-FORMAT:
-- Titel (fett)
-- 4–5 Absätze
-- Natürlich klingender Erzählton.
-
-ZUSÄTZLICHER WUNSCH:
-${extraWish || "Keiner"}
+### BESONDERE WÜNSCHE:
+${extraWish || 'Keine'}
 `;
 
     // --- API AUFRUF ---
@@ -138,4 +88,3 @@ function downloadPDF() {
     doc.text(splitText, 10, 20);
     doc.save("geschichte.pdf");
 }
-
